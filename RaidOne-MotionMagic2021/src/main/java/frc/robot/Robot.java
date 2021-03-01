@@ -27,12 +27,26 @@ import com.ctre.phoenix.motorcontrol.can.*;
  * project.
  */
 public class Robot extends TimedRobot {
+  private Drive drive;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
+  boolean[] _btns = new boolean[Constants.kNumButtonsPlusOne];
+	boolean[] btns = new boolean[Constants.kNumButtonsPlusOne];
+	
+	/** Tracking variables */
+	boolean firstCall = false;
+	boolean state = false;
+	double lockedDistance = 0;
+	double targetAngle = 0;
+
+	/** How much smoothing [0,8] to use during MotionMagic */
+  int smoothing;
+  
   @Override
   public void robotInit() {
+    Drive drive = new Drive(0, 1, 2, 3, 4, 5);
   }
 
   /**
@@ -74,6 +88,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    drive.runLeft(ControlMode.PercentOutput, 0);
   }
 
   /**
